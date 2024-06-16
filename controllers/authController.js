@@ -6,6 +6,13 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findByEmail(email);
     if (user && bcrypt.compareSync(password, user.password)) {
+      // Set session user
+      req.session.user = {
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+        address: user.address,
+      };
       res.json({
         email: user.email,
         name: user.name,
